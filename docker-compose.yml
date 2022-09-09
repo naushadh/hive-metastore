@@ -1,0 +1,51 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:14-alpine
+    environment:
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
+    healthcheck:
+      test: ["CMD", "psql", "-U", "${POSTGRES_USER}", "${POSTGRES_DB}"]
+    ports:
+      - '5432:5432'
+
+  localstack:
+    image: localstack/localstack:1.1
+    ports:
+      - ${LOCALSTACK_PORT}:${LOCALSTACK_PORT}
+    environment:
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - "/tmp/localstack:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+  s3_setup:
+    image: localstack/localstack:1.1
+    depends_on:
+      localstack:
+        condition: service_healthy
+    entrypoint: ["aws", "--endpoint-url", "http://localstack:4566", "s3api", "create-bucket", "--bucket", "${S3_BUCKET}"]
+    environment:
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+
+  app:
+    build: .
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - DATABASE_HOST=postgres
+      - DATABASE_DB=${POSTGRES_DB}
+      - DATABASE_USER=${POSTGRES_USER}
+      - DATABASE_PASSWORD=${POSTGRES_PASSWORD}
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - S3_ENDPOINT_URL=http://localstack:${LOCALSTACK_PORT}
+      - S3_BUCKET
+      - S3_PREFIX
+    ports:
+      - '9083:9083'

@@ -6,6 +6,22 @@ There are numerous Docker images that attempt to do this, but yet to see somethi
 
 ## Setup
 
+### Usage
+
+The recommended way to get this Docker Image is to pull the prebuilt image from the [Docker Hub Registry](https://hub.docker.com/r/naushadh/hive-metastore).
+
+```bash
+$ docker pull naushadh/hive-metastore
+```
+
+If you wish, you can also build the image yourself by cloning the repository, and executing the docker build command.
+
+```bash
+$ git clone https://github.com/naushadh/hive-metastore
+$ cd hive-metastore
+$ make build
+```
+
 ### Configuration
 
 Controlled via ENVironment variables

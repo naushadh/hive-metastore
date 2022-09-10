@@ -33,17 +33,12 @@ This project has most of the batteries included to test and verify that the app 
 
 1. Install docker and docker-compose
 
-2. Build image
+2. Launch dev environment
     ```bash
-    $ docker-compose build
+    $ make env-up
     ```
 
-3. Launch dev environment
-    ```bash
-    $ docker-compose up --detach
-    ```
-
-4. Run test(s)
+3. Run test(s)
     ```bash
     $ docker-compose run test
     ```

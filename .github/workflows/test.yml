@@ -19,19 +19,10 @@ jobs:
       run: docker login -u $DOCKER_USER -p $DOCKER_PASS
 
     - name: Build docker images
-      run: docker-compose build
+      run: make build
 
     - name: Boot development environment
-      run: docker-compose up --detach
-
-    - name: Wait for app
-      uses: nick-fields/retry@v2
-      with:
-        retry_wait_seconds: 1
-        timeout_seconds: 10
-        max_attempts: 10
-        retry_on: error
-        command: docker-compose logs app | grep 'Starting Metastore'
+      run: make env-up
 
     - name: Run tests
       run: docker-compose run test

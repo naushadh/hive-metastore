@@ -42,3 +42,8 @@ This project has most of the batteries included to test and verify that the app 
     ```bash
     $ docker-compose up --detach
     ```
+
+4. Run test(s)
+    ```bash
+    $ docker-compose run test
+    ```

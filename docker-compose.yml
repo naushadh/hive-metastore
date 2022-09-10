@@ -49,3 +49,15 @@ services:
       - S3_PREFIX
     ports:
       - '9083:9083'
+
+  test:
+    image: python:3.10-alpine
+    command: ["./test.sh"]
+    profiles:
+      - dev
+    working_dir: /scripts
+    volumes:
+      - ./scripts:/scripts
+    environment:
+      - HIVE_HOST=app
+      - HIVE_PORT=9083

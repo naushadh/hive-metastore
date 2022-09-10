@@ -1,0 +1,37 @@
+name: Test
+on:
+  push: { branches: [ main ] }
+  pull_request:
+
+jobs:
+  test:
+    name: Run test suite
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_USER: ${{ secrets.DOCKER_USER }}
+      DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Login to DockerHub
+      run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+
+    - name: Build docker images
+      run: docker-compose build
+
+    - name: Boot development environment
+      run: docker-compose up --detach
+
+    - name: Wait for app
+      uses: nick-fields/retry@v2
+      with:
+        retry_wait_seconds: 1
+        timeout_seconds: 10
+        max_attempts: 10
+        retry_on: error
+        command: docker-compose logs app | grep 'Starting Metastore'
+
+    - name: Run tests
+      run: docker-compose run test

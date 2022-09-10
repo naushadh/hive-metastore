@@ -1,0 +1,25 @@
+name: Release
+on:
+  workflow_run:
+    workflows: [ Test ]
+    branches: [ main ]
+    types: 
+      - completed
+
+jobs:
+  release:
+    name: Push to DockerHub
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_USER: ${{ secrets.DOCKER_USER }}
+      DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Login to DockerHub
+      run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+
+    - name: Release
+      run: ./scripts/release.sh

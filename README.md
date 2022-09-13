@@ -22,6 +22,20 @@ $ cd hive-metastore
 $ make build
 ```
 
+You can also use DockerCompose to launch the app with all of its dependencies using [docker-compose.yml](https://raw.githubusercontent.com/naushadh/hive-metastore/main/docker-compose.yml) file in the GitHub repository. Just replace the `build` with `image`
+
+```diff
+app:
+-   build: .
++   image: naushadh/hive-metastore
+```
+
+And then run
+
+```bash
+$ docker-compose up
+```
+
 ### Configuration
 
 Controlled via ENVironment variables

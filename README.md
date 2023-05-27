@@ -33,8 +33,20 @@ app:
 And then run
 
 ```bash
-$ docker-compose up
+$ docker compose up -d
+[+] Running 4/4
+ ✔ Container hive-metastore-localstack-1  Healthy                                                                   10.8s 
+ ✔ Container hive-metastore-postgres-1    Healthy                                                                   30.8s 
+ ✔ Container hive-metastore-s3_setup-1    Started                                                                   11.0s 
+ ✔ Container hive-metastore-app-1         Started                                                                   31.0s 
+$ docker compose ps
+NAME                          IMAGE                       COMMAND                  SERVICE             CREATED              STATUS                    PORTS
+hive-metastore-app-1          hive-metastore-app          "./run.sh"               app                 About a minute ago   Up 8 seconds              0.0.0.0:9083->9083/tcp
+hive-metastore-localstack-1   localstack/localstack:1.1   "docker-entrypoint.sh"   localstack          About a minute ago   Up 39 seconds (healthy)   4510-4559/tcp, 5678/tcp, 0.0.0.0:4566->4566/tcp
+hive-metastore-postgres-1     postgres:14-alpine          "docker-entrypoint.s…"   postgres            About a minute ago   Up 39 seconds (healthy)   0.0.0.0:5432->5432/tcp
 ```
+
+You can now connect to the MetaStore Thrift server at `0.0.0.0:9083` from your host machine.
 
 ### Configuration
 

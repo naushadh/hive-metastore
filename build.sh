@@ -1,0 +1,1 @@
+docker buildx build -t tabulario/hive-metastore --platform=linux/amd64,linux/arm64 --pull --push .

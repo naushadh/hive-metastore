@@ -109,12 +109,12 @@ XML
 }
 
 run_migrations(){
-  if /opt/hive-metastore/bin/schematool -dbType "$DATABASE_TYPE" -validate | grep 'Done with metastore validation' | grep '[SUCCESS]'; then
+  if /opt/hive/bin/schematool -dbType "$DATABASE_TYPE" -validate | grep 'Done with metastore validation' | grep '[SUCCESS]'; then
     echo 'Database OK'
     return 0
   else
     # TODO: how to apply new version migrations or repair validation issues
-    /opt/hive-metastore/bin/schematool --verbose -dbType "$DATABASE_TYPE" -initSchema
+    /opt/hive/bin/schematool --verbose -dbType "$DATABASE_TYPE" -initSchema
   fi
 }
 
@@ -123,6 +123,6 @@ generate_hive_site_config /opt/hadoop/etc/hadoop/hive-site.xml
 run_migrations
 
 # configure & start metastore (in foreground)
-generate_metastore_site_config /opt/hive-metastore/conf/metastore-site.xml
+generate_metastore_site_config /opt/hive/conf/metastore-site.xml
 generate_core_site_config /opt/hadoop/etc/hadoop/core-site.xml
-/opt/hive-metastore/bin/start-metastore
+/opt/hive/bin/hiveserver2

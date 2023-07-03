@@ -6,5 +6,9 @@ set -euo pipefail
 DEFAULT_TAG=naushadh/hive-metastore:latest
 TAG=${TAG:-$DEFAULT_TAG}
 
-docker build --tag "$TAG" .
-docker push "$TAG"
+docker buildx create --name multiarch --use
+
+docker buildx build --push \
+    --platform linux/arm64,linux/amd64 \
+    --tag "$TAG" \
+    .

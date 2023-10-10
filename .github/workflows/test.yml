@@ -16,7 +16,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Login to DockerHub
-      run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+      run: echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
 
     - name: Build docker images
       run: make build

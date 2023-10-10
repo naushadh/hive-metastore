@@ -84,6 +84,26 @@ generate_s3_custom_endpoint(){
   <name>fs.s3a.path.style.access</name>
   <value>true</value>
 </property>
+<property>
+  <name>fs.s3.endpoint</name>
+  <value>${S3_ENDPOINT_URL}</value>
+</property>
+<property>
+  <name>fs.s3.access.key</name>
+  <value>${AWS_ACCESS_KEY_ID:-}</value>
+</property>
+<property>
+  <name>fs.s3.secret.key</name>
+  <value>${AWS_SECRET_ACCESS_KEY:-}</value>
+</property>
+<property>
+  <name>fs.s3.connection.ssl.enabled</name>
+  <value>false</value>
+</property>
+<property>
+  <name>fs.s3.path.style.access</name>
+  <value>true</value>
+</property>
 XML
 }
 
@@ -95,6 +115,14 @@ generate_core_site_config(){
       <name>fs.defaultFS</name>
       <value>s3a://${S3_BUCKET}</value>
   </property>
+  <property>
+        <name>fs.s3.impl</name>
+        <value>org.apache.hadoop.fs.s3a.S3AFileSystem</value>
+    </property>
+    <property>
+        <name>fs.s3.fast.upload</name>
+        <value>true</value>
+    </property>
   <property>
       <name>fs.s3a.impl</name>
       <value>org.apache.hadoop.fs.s3a.S3AFileSystem</value>

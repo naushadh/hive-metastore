@@ -52,6 +52,9 @@ services:
 
   test:
     image: python:3.10-alpine
+    depends_on:
+      app:
+        condition: service_healthy
     command: ["./test.sh"]
     profiles:
       - dev

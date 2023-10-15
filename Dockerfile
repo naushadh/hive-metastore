@@ -25,7 +25,7 @@ RUN \
   echo "Install OS dependencies" && \
     build_deps="curl" && \
     apt-get update -y && \
-    apt-get install -y $build_deps --no-install-recommends && \
+    apt-get install -y $build_deps net-tools --no-install-recommends && \
   echo "Download and extract the Hadoop binary package" && \
     curl https://archive.apache.org/dist/hadoop/core/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz \
     | tar xvz -C /opt/ && \
@@ -54,3 +54,4 @@ RUN \
 COPY run.sh run.sh
 
 CMD [ "./run.sh" ]
+HEALTHCHECK CMD [ "sh", "-c", "netstat -ln | grep 9083" ]

@@ -20,6 +20,10 @@ ENV DATABASE_PORT=5432
 WORKDIR /app
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
+# getting netstat for healthcheck
+RUN apt update
+RUN apt install net-tools
+
 # hadolint ignore=DL3008
 RUN \
   echo "Install OS dependencies" && \
@@ -53,4 +57,7 @@ RUN \
 
 COPY run.sh run.sh
 
-CMD [ "./run.sh" ]
+HEALTHCHECK --interval=1s --timeout=3s --start-period=1m \
+  CMD netstat -ltn | grep -c ":9083"
+
+ENTRYPOINT [ "./run.sh" ]

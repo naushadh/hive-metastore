@@ -3,6 +3,13 @@
 set -euxo pipefail
 
 generate_database_config(){
+  local jdbcUrl=''
+  if [ -z "$DATABASE_URL" ]; then
+    jdbcUrl="jdbc:${DATABASE_TYPE_JDBC}://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_DB}"
+  else
+    jdbcUrl=${DATABASE_URL}
+  fi
+
   cat << XML
 <property>
   <name>javax.jdo.option.ConnectionDriverName</name>
@@ -10,7 +17,7 @@ generate_database_config(){
 </property>
 <property>
   <name>javax.jdo.option.ConnectionURL</name>
-  <value>jdbc:${DATABASE_TYPE_JDBC}://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_DB}</value>
+  <value>${jdbcUrl}</value>
 </property>
 <property>
   <name>javax.jdo.option.ConnectionUserName</name>

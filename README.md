@@ -84,3 +84,4 @@ This project has most of the batteries included to test and verify that the app 
     ```bash
     $ docker-compose run test
     ```
+

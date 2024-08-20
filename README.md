@@ -73,14 +73,14 @@ S3_PREFIX          | Yes                                   | S3 bucket prefix
 
 This project has most of the batteries included to test and verify that the app works
 
-1. Install docker and docker-compose
+1. Install docker (27+) with compose
 
 2. Launch dev environment
     ```bash
-    $ make env-up
+    $ make build env-up
     ```
 
 3. Run test(s)
     ```bash
-    $ docker-compose run test
+    $ make test
     ```

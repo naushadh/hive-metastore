@@ -6,6 +6,8 @@ Available commands:
 
 - env-up: Boot up development environment
 
+- test: Run all tests
+
 - env-down: Tear down development environment
 
 - help: Display this help message
@@ -18,14 +20,19 @@ help:
 .PHONY: help
 
 build:
-	docker-compose build
+	docker compose pull
+	docker compose build
 .PHONY: build
 
 env-up: build
-	docker-compose up --detach
-	while ! (docker-compose logs app | grep 'Starting Metastore'); do sleep 1 && printf .; done
+	docker compose up --detach
+	while ! (docker compose logs app | grep 'Starting Metastore'); do sleep 1 && printf .; done
 .PHONY: env-up
 
+test:
+	docker compose run --no-deps test
+.PHONY: test
+
 env-down:
-	docker-compose down
+	docker compose down
 .PHONY: env-down

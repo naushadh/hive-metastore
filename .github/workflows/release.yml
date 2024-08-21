@@ -3,7 +3,8 @@ on:
   workflow_run:
     workflows: [ Test ]
     branches: [ main ]
-    types: 
+    tags: [ '*' ]
+    types:
       - completed
 
 jobs:
@@ -24,3 +25,5 @@ jobs:
 
     - name: Release
       run: ./scripts/release.sh
+      env:
+        VERSION: ${{ github.ref_name == 'main' && 'latest' || github.ref_name }}

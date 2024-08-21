@@ -20,7 +20,7 @@ ENV DATABASE_PORT=5432
 WORKDIR /app
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-# hadolint ignore=DL3008
+# hadolint ignore=DL3008,SC2086
 RUN \
   echo "Install OS dependencies" && \
     build_deps="curl" && \

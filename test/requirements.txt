@@ -1,0 +1,7 @@
+boto3
+boto3-stubs
+hive-metastore-client
+psycopg2-binary
+types-psycopg2
+flake8
+mypy

@@ -30,7 +30,7 @@ env-up: build
 .PHONY: env-up
 
 test:
-	docker compose run --no-deps test
+	docker compose run --no-deps --rm test
 .PHONY: test
 
 env-down:

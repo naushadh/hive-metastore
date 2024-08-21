@@ -1,4 +1,7 @@
 #!/usr/bin/env sh
 
-pip install hive-metastore-client > /tmp/out.log || cat /tmp/out.log
-./test.py
+set -euxo
+
+flake8 --max-line-length=160
+mypy --strict --cache-dir=/dev/null .
+python -m unittest

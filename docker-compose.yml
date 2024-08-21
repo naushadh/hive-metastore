@@ -49,16 +49,23 @@ services:
       - '9083:9083'
 
   test:
-    image: python:3.10-alpine
+    build: test
     depends_on:
       app:
         condition: service_healthy
-    command: ["./test.sh"]
     profiles:
       - dev
-    working_dir: /scripts
-    volumes:
-      - ./scripts:/scripts
     environment:
       - HIVE_HOST=app
       - HIVE_PORT=9083
+      - POSTGRES_HOST=postgres
+      - POSTGRES_DB
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - S3_ENDPOINT_URL=http://localstack:${LOCALSTACK_PORT}
+      - S3_BUCKET
+      - S3_PREFIX
+    volumes:
+      - ./test:/app

@@ -1,4 +1,4 @@
-name: Test
+name: Continuous Integration
 on:
   push:
     branches: [ main ]
@@ -28,3 +28,24 @@ jobs:
 
     - name: Run tests
       run: make test
+
+  release:
+    needs: test
+    if: ${{ startsWith(github.ref, 'refs/heads/') || startsWith(github.ref, 'refs/tags/') }}
+    name: Push to DockerHub
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_USER: ${{ secrets.DOCKER_USER }}
+      DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Login to DockerHub
+      run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+
+    - name: Release
+      run: ./scripts/release.sh
+      env:
+        VERSION: ${{ github.ref_name == 'main' && 'latest' || github.ref_name }}

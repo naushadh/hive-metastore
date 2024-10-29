@@ -16,6 +16,7 @@ ENV DATABASE_DRIVER=org.postgresql.Driver
 ENV DATABASE_TYPE=postgres
 ENV DATABASE_TYPE_JDBC=postgresql
 ENV DATABASE_PORT=5432
+ENV DATABASE_URL=
 
 WORKDIR /app
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]

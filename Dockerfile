@@ -43,6 +43,8 @@ RUN \
   echo "Keep this until this lands: https://issues.apache.org/jira/browse/HIVE-22915" && \
     rm /opt/apache-hive-metastore-$HIVE_METASTORE_VERSION-bin/lib/guava-19.0.jar && \
     cp /opt/hadoop-$HADOOP_VERSION/share/hadoop/hdfs/lib/guava-27.0-jre.jar /opt/apache-hive-metastore-$HIVE_METASTORE_VERSION-bin/lib/ && \
+  echo "fix log4j errors" && \
+    rm /opt/apache-hive-metastore-$HIVE_METASTORE_VERSION-bin/lib/log4j-slf4j-impl-2.8.2.jar && \
   echo "Download and install the database connector" && \
     curl -L https://jdbc.postgresql.org/download/postgresql-$POSTGRES_CONNECTOR_VERSION.jar --output /opt/postgresql-$POSTGRES_CONNECTOR_VERSION.jar && \
     ln -s /opt/postgresql-$POSTGRES_CONNECTOR_VERSION.jar /opt/hadoop/share/hadoop/common/lib/ && \

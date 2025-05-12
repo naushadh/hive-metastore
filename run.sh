@@ -112,8 +112,11 @@ run_migrations(){
   if /opt/hive-metastore/bin/schematool -dbType "$DATABASE_TYPE" -validate | grep 'Done with metastore validation' | grep '[SUCCESS]'; then
     echo 'Database OK'
     return 0
+  elif /opt/hive-metastore/bin/schematool --verbose -dbType "$DATABASE_TYPE" -upgradeSchema | grep 'Finished upgrading MetaStore schema'; then
+    echo 'Database Upgraded'
+    return 0
   else
-    # TODO: how to apply new version migrations or repair validation issues
+    # TODO: how to repair validation issues
     /opt/hive-metastore/bin/schematool --verbose -dbType "$DATABASE_TYPE" -initSchema
   fi
 }

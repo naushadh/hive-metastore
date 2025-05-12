@@ -3,9 +3,9 @@ FROM openjdk:16-slim
 # Lifted from: https://github.com/joshuarobinson/presto-on-k8s/blob/1c91f0b97c3b7b58bdcdec5ad6697b42e50d74c7/hive_metastore/Dockerfile
 
 # see https://hadoop.apache.org/releases.html
-ARG HADOOP_VERSION=3.3.0
+ARG HADOOP_VERSION=3.3.6
 # see https://downloads.apache.org/hive/
-ARG HIVE_METASTORE_VERSION=3.0.0
+ARG HIVE_METASTORE_VERSION=3.1.3
 # see https://jdbc.postgresql.org/download.html#current
 ARG POSTGRES_CONNECTOR_VERSION=42.2.18
 
@@ -35,7 +35,7 @@ RUN \
     ln -s /opt/hadoop/share/hadoop/tools/lib/hadoop-aws* /opt/hadoop/share/hadoop/common/lib/ && \
     ln -s /opt/hadoop/share/hadoop/tools/lib/aws-java-sdk* /opt/hadoop/share/hadoop/common/lib/ && \
   echo "Download and install the standalone metastore binary" && \
-    curl https://downloads.apache.org/hive/hive-standalone-metastore-$HIVE_METASTORE_VERSION/hive-standalone-metastore-$HIVE_METASTORE_VERSION-bin.tar.gz \
+    curl https://repo1.maven.org/maven2/org/apache/hive/hive-standalone-metastore/$HIVE_METASTORE_VERSION/hive-standalone-metastore-$HIVE_METASTORE_VERSION-bin.tar.gz \
     | tar xvz -C /opt/ && \
     ln -s /opt/apache-hive-metastore-$HIVE_METASTORE_VERSION-bin /opt/hive-metastore && \
   echo "Fix 'java.lang.NoSuchMethodError: com.google.common.base.Preconditions.checkArgument'" && \
